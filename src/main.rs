@@ -1,4 +1,5 @@
 mod day1;
+mod day2;
 
 use colored::*;
 use text_io::read;
@@ -19,6 +20,7 @@ fn main() {
     let selection = selection.parse::<i32>().unwrap();
     match selection {
         1 => day1::main(),
+        2 => day2::main(),
         _ => eprintln!("Not a valid option")
     }
 }
