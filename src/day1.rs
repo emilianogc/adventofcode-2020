@@ -1,5 +1,5 @@
-use std::io::{BufRead, Write};
-use std::io;
+use std::io::{stdin, stdout, Write};
+
 use itertools::Itertools;
 use text_io::read;
 
@@ -8,15 +8,18 @@ pub(crate) fn main() {
     println!("Enter numbers (Ctrl+D to end): ");
     loop {
         let mut buffer = String::new();
-        let bytes = io::stdin().read_line(&mut buffer).unwrap();
+        let bytes = stdin().read_line(&mut buffer).unwrap();
         if bytes == 0 {
             break;
         }
-        let line = buffer.strip_suffix("\n").unwrap().to_owned().parse::<u32>().unwrap();
+        let line = buffer
+            .strip_suffix("\n")
+            .and_then(|v| v.parse::<u32>().ok())
+            .unwrap();
         lines.push(line);
     }
     print!("How many numbers to find?: ");
-    io::stdout().flush().unwrap();
+    stdout().flush().unwrap();
 
     let n: String = read!();
     let n = n.parse::<usize>().unwrap();
