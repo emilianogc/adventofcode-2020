@@ -1,5 +1,6 @@
 mod day1;
 mod day2;
+mod day3;
 
 use colored::*;
 use text_io::read;
@@ -11,7 +12,7 @@ fn main() {
     println!();
     println!("1.                   . {}{}{} .                    ", "....".forest_green(), "|".bark_brown(), "....".forest_green());
     println!("2.");
-    println!();
+    println!("3.");
 
     print!("\nSelection: ");
     io::stdout().flush().unwrap();
@@ -21,6 +22,7 @@ fn main() {
     match selection {
         1 => day1::main(),
         2 => day2::main(),
+        3 => day3::main(),
         _ => eprintln!("Not a valid option")
     }
 }
