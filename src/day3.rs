@@ -13,11 +13,11 @@ struct Slope {
 
 pub(crate) fn main() {
     let mut slopes = [
-        Slope {dx: 1, dy: 1, next_x: 1, next_y: 1, trees: 0},
-        Slope {dx: 1, dy: 3, next_x: 1, next_y: 3, trees: 0},
-        Slope {dx: 1, dy: 5, next_x: 1, next_y: 5, trees: 0},
-        Slope {dx: 1, dy: 7, next_x: 1, next_y: 7, trees: 0},
-        Slope {dx: 2, dy: 1, next_x: 2, next_y: 1, trees: 0},
+        make_slope(1, 1),
+        make_slope(1, 3),
+        make_slope(1, 5),
+        make_slope(1, 7),
+        make_slope(2, 1),
     ];
     let mut xi = 0;
 
@@ -56,4 +56,8 @@ pub(crate) fn main() {
     }
     let result = slopes.iter().fold(1, |acc, v| acc * v.trees);
     println!("Result: {}", result);
+}
+
+fn make_slope(dx: usize, dy: usize) -> Slope {
+    Slope { dx, dy, next_x: dx, next_y: dy, trees: 0 }
 }
