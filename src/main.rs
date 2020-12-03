@@ -4,21 +4,28 @@ mod day3;
 
 use colored::*;
 use text_io::read;
-use std::io;
+use std::{io, env};
 use std::io::Write;
 
 fn main() {
-    println!();
-    println!();
-    println!("1.                   . {}{}{} .                    ", "....".forest_green(), "|".bark_brown(), "....".forest_green());
-    println!("2.");
-    println!("3.");
+    let arg = env::args().nth(1).and_then(|v| v.parse::<u8>().ok());
+    println!("arg: {:?}", env::args().nth(1));
+    let selection = match arg {
+        Some(selection) => selection,
+        _ => {
+            println!();
+            println!();
+            println!("1.                   . {}{}{} .                    ", "....".forest_green(), "|".bark_brown(), "....".forest_green());
+            println!("2.");
+            println!("3.");
 
-    print!("\nSelection: ");
-    io::stdout().flush().unwrap();
+            print!("\nSelection: ");
+            io::stdout().flush().unwrap();
+            let read: String = read!();
+            read.parse::<u8>().unwrap()
+        }
+    };
 
-    let selection: String = read!();
-    let selection = selection.parse::<i32>().unwrap();
     match selection {
         1 => day1::main(),
         2 => day2::main(),
