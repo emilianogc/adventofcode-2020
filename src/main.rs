@@ -1,6 +1,9 @@
+#![feature(str_split_once)]
+
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 use colored::*;
 use text_io::read;
@@ -9,7 +12,6 @@ use std::io::Write;
 
 fn main() {
     let arg = env::args().nth(1).and_then(|v| v.parse::<u8>().ok());
-    println!("arg: {:?}", env::args().nth(1));
     let selection = match arg {
         Some(selection) => selection,
         _ => {
@@ -30,6 +32,7 @@ fn main() {
         1 => day1::main(),
         2 => day2::main(),
         3 => day3::main(),
+        4 => day4::main(),
         _ => eprintln!("Not a valid option")
     }
 }
