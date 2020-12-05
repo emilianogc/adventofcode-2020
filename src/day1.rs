@@ -34,12 +34,10 @@ pub(crate) fn main() {
             result = Some((perm, mult));
             break;
         }
-    };
+    }
     let result = result;
     match result {
-        Some((perm, solution)) =>
-            println!("Solution:  {:?} = {}", perm, solution),
-        None =>
-            eprintln!("No solution found!")
+        Some((perm, solution)) => println!("Solution:  {:?} = {}", perm, solution),
+        None => eprintln!("No solution found!"),
     }
 }

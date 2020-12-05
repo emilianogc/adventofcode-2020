@@ -7,7 +7,6 @@ pub(crate) fn main() {
     let mut correct1 = 0;
     let mut correct2 = 0;
     loop {
-
         let mut buffer = String::new();
         let bytes = stdin().read_line(&mut buffer);
 
@@ -17,7 +16,7 @@ pub(crate) fn main() {
             _ => {}
         }
 
-        let (a, b, c, pass) : (usize, usize, char, String);
+        let (a, b, c, pass): (usize, usize, char, String);
         scan!(buffer.bytes() => "{}-{} {}: {}", a, b, c, pass);
 
         let count = pass.chars().filter(|cc| c == *cc).count();
@@ -25,7 +24,7 @@ pub(crate) fn main() {
             correct1 += 1
         }
 
-        if (pass.chars().nth(a - 1).unwrap() == c)  ^ (pass.chars().nth(b - 1).unwrap() == c) {
+        if (pass.chars().nth(a - 1).unwrap() == c) ^ (pass.chars().nth(b - 1).unwrap() == c) {
             correct2 += 1
         }
     }

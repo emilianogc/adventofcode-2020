@@ -37,9 +37,9 @@ pub(crate) fn main() {
                 let char = line.chars().nth(slope.next_y % (size - 1));
 
                 match char {
-                    Some('.') => {},
-                    Some('#') => slope.trees += 1 ,
-                    other => panic!("Not a valid char: {:?}", other)
+                    Some('.') => {}
+                    Some('#') => slope.trees += 1,
+                    other => panic!("Not a valid char: {:?}", other),
                 }
 
                 slope.next_x += slope.dx;
@@ -50,14 +50,22 @@ pub(crate) fn main() {
         xi += 1;
     }
 
-
     for slope in &slopes {
-        println!("Trees found: for {}, {} : {}", slope.dx, slope.dy, slope.trees);
+        println!(
+            "Trees found: for {}, {} : {}",
+            slope.dx, slope.dy, slope.trees
+        );
     }
     let result = slopes.iter().fold(1, |acc, v| acc * v.trees);
     println!("Result: {}", result);
 }
 
 fn make_slope(dx: usize, dy: usize) -> Slope {
-    Slope { dx, dy, next_x: dx, next_y: dy, trees: 0 }
+    Slope {
+        dx,
+        dy,
+        next_x: dx,
+        next_y: dy,
+        trees: 0,
+    }
 }

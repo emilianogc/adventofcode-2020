@@ -6,9 +6,9 @@ mod day3;
 mod day4;
 
 use colored::*;
-use text_io::read;
-use std::{io, env};
 use std::io::Write;
+use std::{env, io};
+use text_io::read;
 
 fn main() {
     let arg = env::args().nth(1).and_then(|v| v.parse::<u8>().ok());
@@ -17,7 +17,12 @@ fn main() {
         _ => {
             println!();
             println!();
-            println!("1.                   . {}{}{} .                    ", "....".forest_green(), "|".bark_brown(), "....".forest_green());
+            println!(
+                "1.                   . {}{}{} .                    ",
+                "....".forest_green(),
+                "|".bark_brown(),
+                "....".forest_green()
+            );
             println!("2.");
             println!("3.");
 
@@ -33,25 +38,24 @@ fn main() {
         2 => day2::main(),
         3 => day3::main(),
         4 => day4::main(),
-        _ => eprintln!("Not a valid option")
+        _ => eprintln!("Not a valid option"),
     }
 }
 
 trait CustomColors {
     fn bark_brown(self) -> ColoredString
-        where
-            Self: Sized + Colorize,
+    where
+        Self: Sized + Colorize,
     {
         self.truecolor(140, 88, 80)
     }
 
     fn forest_green(self) -> ColoredString
-        where
-            Self: Sized + Colorize,
+    where
+        Self: Sized + Colorize,
     {
-        self.truecolor(34,139,34)
+        self.truecolor(34, 139, 34)
     }
-
 }
 
-impl<'a> CustomColors for &'a str  {}
+impl<'a> CustomColors for &'a str {}

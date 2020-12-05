@@ -1,6 +1,5 @@
-use std::io::stdin;
-use regex::Regex;
 use lazy_static::lazy_static;
+use regex::Regex;
 
 pub(crate) fn main() {
     let mut ok = 0;
@@ -23,13 +22,15 @@ pub(crate) fn main() {
             })
             .fold(0, |flags, flag| flags | flag);
 
-        if flags & 0x11111111 == 0x11111111 { ok += 1}
-        else if flags & 0x11111110 == 0x11111110 { ok += 1 };
+        if flags & 0x11111111 == 0x11111111 {
+            ok += 1
+        } else if flags & 0x11111110 == 0x11111110 {
+            ok += 1
+        };
     }
 
     println!("Ok passports {}", ok)
 }
-
 
 fn birth_year(value: &str) -> bool {
     valid_year(value, 1920, 2002)
@@ -49,9 +50,15 @@ fn height(value: &str) -> bool {
     }
     let capture = REGEX.captures(value);
     match capture {
-        Some(cap) if &cap[2] == "cm" => cap[1].parse::<u16>().map(|v| v >= 150 && v <= 193).unwrap_or(false),
-        Some(cap) if &cap[2] == "in" => cap[1].parse::<u16>().map(|v| v >= 59 && v <= 76).unwrap_or(false),
-        _ => false
+        Some(cap) if &cap[2] == "cm" => cap[1]
+            .parse::<u16>()
+            .map(|v| v >= 150 && v <= 193)
+            .unwrap_or(false),
+        Some(cap) if &cap[2] == "in" => cap[1]
+            .parse::<u16>()
+            .map(|v| v >= 59 && v <= 76)
+            .unwrap_or(false),
+        _ => false,
     }
 }
 
@@ -80,5 +87,9 @@ fn valid_year(value: &str, min: u16, max: u16) -> bool {
     lazy_static! {
         static ref REGEX: Regex = Regex::new("\\d{4}").unwrap();
     }
-    REGEX.is_match(value) && value.parse::<u16>().map(|year| year >= min && year <= max).unwrap_or(false)
+    REGEX.is_match(value)
+        && value
+            .parse::<u16>()
+            .map(|year| year >= min && year <= max)
+            .unwrap_or(false)
 }
