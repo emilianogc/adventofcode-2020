@@ -4,12 +4,14 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::fs::read_to_string;
 
+#[derive(Debug, Copy, Clone)]
 enum InstructionKind {
     Jump,
     Noop,
     Accumulate,
 }
 
+#[derive(Debug, Copy, Clone)]
 struct Instruction {
     kind: InstructionKind,
     value: i32,
@@ -23,11 +25,18 @@ pub(crate) fn main() {
         instructions.push(instruction);
     }
 
-    let result_1 = part_1(instructions);
+    let result_1 = part_1(&instructions);
     println!("Part 1 result: {}", result_1);
+    let result_2 = part_2(
+        &instructions,
+        State { address: 0, acc: 0 },
+        false,
+        &mut BitSet::new(),
+    );
+    println!("Part 2 result: {}", result_2.unwrap());
 }
 
-fn part_1(instructions: Vec<Instruction>) -> i32 {
+fn part_1(instructions: &[Instruction]) -> i32 {
     let mut acc: i32 = 0;
     let mut pointer: i32 = 0;
     let mut executed = BitSet::new();
@@ -49,6 +58,76 @@ fn part_1(instructions: Vec<Instruction>) -> i32 {
                 acc += value;
             }
         }
+    }
+}
+
+#[derive(Copy, Clone)]
+struct State {
+    address: usize,
+    acc: i32,
+}
+
+trait Execute {
+    fn execute(self: Self, state: State) -> State;
+    fn switch(self: Self) -> Option<Instruction>;
+}
+
+impl Execute for Instruction {
+    fn execute(self: Self, state: State) -> State {
+        match self {
+            Instruction {
+                kind: Accumulate,
+                value,
+            } => State {
+                address: state.address + 1,
+                acc: state.acc + value,
+            },
+            Instruction { kind: Noop, .. } => State {
+                address: state.address + 1,
+                acc: state.acc,
+            },
+            Instruction { kind: Jump, value } => State {
+                address: (state.address as i32 + value) as usize,
+                acc: state.acc,
+            },
+        }
+    }
+
+    fn switch(self: Self) -> Option<Instruction> {
+        match self {
+            Instruction {
+                kind: Accumulate, ..
+            } => None,
+            Instruction { kind: Noop, value } => Some(Instruction { kind: Jump, value }),
+            Instruction { kind: Jump, value } => Some(Instruction { kind: Noop, value }),
+        }
+    }
+}
+
+fn part_2(
+    instructions: &[Instruction],
+    state: State,
+    switched: bool,
+    visited: &mut BitSet,
+) -> Option<i32> {
+    if state.address >= instructions.len() {
+        Some(state.acc)
+    } else if visited.contains(state.address) {
+        None
+    } else {
+        visited.insert(state.address);
+        let instr = &instructions[state.address];
+
+        let result = if switched || instr.switch().is_none() {
+            part_2(instructions, instr.execute(state), switched, visited)
+        } else {
+            instr
+                .switch()
+                .and_then(|v| part_2(instructions, v.execute(state), true, visited))
+                .or(part_2(instructions, instr.execute(state), false, visited))
+        };
+        visited.remove(state.address);
+        result
     }
 }
 
