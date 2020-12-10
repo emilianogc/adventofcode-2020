@@ -1,7 +1,7 @@
 use bit_set::BitSet;
-use std::fs::read_to_string;
-use std::collections::HashMap;
 use std::cmp::{max, min};
+use std::collections::HashMap;
+use std::fs::read_to_string;
 
 const RANGE: i32 = 25;
 
@@ -28,10 +28,11 @@ fn part_1(numbers: &Vec<usize>) -> Option<usize> {
         }
 
         if index as i32 > RANGE {
-            let index = sums.get(number)
+            let index = sums
+                .get(number)
                 .and_then(|indexes| indexes.iter().find(|v| *v as i32 > index as i32 - RANGE));
             if index.is_none() {
-                return Some(*number)
+                return Some(*number);
             }
         }
     }
@@ -51,7 +52,9 @@ fn part_2(target: usize, numbers: &Vec<usize>) -> Option<usize> {
                 break;
             }
         }
-        if result.is_some() { break; }
+        if result.is_some() {
+            break;
+        }
     }
 
     let mut max_n = usize::max_value();
