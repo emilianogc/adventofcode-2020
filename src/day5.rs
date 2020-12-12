@@ -2,7 +2,7 @@ use bit_set::BitSet;
 use std::fs::read_to_string;
 
 pub(crate) fn main() {
-    let file = read_to_string("src/day5.input").unwrap();
+    let file = read_to_string("resources/day5.input").unwrap();
     let mut max_id = 0;
     let mut seats = vec![vec![false; 8]; 128];
     let mut ids = BitSet::new();

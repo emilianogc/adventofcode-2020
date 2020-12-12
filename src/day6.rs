@@ -2,7 +2,7 @@ use bit_set::BitSet;
 use std::fs::read_to_string;
 
 pub(crate) fn main() {
-    let file = read_to_string("src/day6.input").unwrap();
+    let file = read_to_string("resources/day6.input").unwrap();
     let mut unions = 0;
     let mut intersections = 0;
 

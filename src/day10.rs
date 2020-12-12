@@ -3,7 +3,7 @@ use std::fs::read_to_string;
 use std::ops::Add;
 
 pub(crate) fn main() {
-    let file = read_to_string("src/day10.input").unwrap();
+    let file = read_to_string("resources/day10.input").unwrap();
     let mut adapters = Vec::new();
     for line in file.lines() {
         adapters.push(line.parse::<i32>().unwrap());

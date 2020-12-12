@@ -3,7 +3,7 @@ use regex::Regex;
 
 pub(crate) fn main() {
     let mut ok = 0;
-    let file = std::fs::read_to_string("src/day4.input").unwrap();
+    let file = std::fs::read_to_string("resources/day4.input").unwrap();
     let lines: Vec<&str> = file.split("\n\n").collect();
     for line in lines {
         let flags = line

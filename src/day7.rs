@@ -9,7 +9,7 @@ pub(crate) fn main() {
         static ref RELATIONS_RE: Regex = Regex::new("(\\d+)\\s(.+?\\b.+?) bags?").unwrap();
     }
 
-    let file = read_to_string("src/day7.input").unwrap();
+    let file = read_to_string("resources/day7.input").unwrap();
     let mut contained_to_containing: HashMap<String, HashSet<String>> = HashMap::new();
     let mut containing_to_contained: HashMap<String, HashMap<String, usize>> = HashMap::new();
 

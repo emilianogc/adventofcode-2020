@@ -18,7 +18,7 @@ struct Instruction {
 }
 
 pub(crate) fn main() {
-    let file = read_to_string("src/day8.input").unwrap();
+    let file = read_to_string("resources/day8.input").unwrap();
     let mut instructions: Vec<Instruction> = Vec::new();
     for line in file.lines() {
         let instruction = parse_instruction(line);

@@ -6,7 +6,7 @@ use std::fs::read_to_string;
 const RANGE: i32 = 25;
 
 pub(crate) fn main() {
-    let file = read_to_string("src/day9.input").unwrap();
+    let file = read_to_string("resources/day9.input").unwrap();
     let mut numbers = Vec::new();
     for line in file.lines() {
         numbers.push(line.parse::<usize>().unwrap());
