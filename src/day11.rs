@@ -1,4 +1,4 @@
-use crate::day11::Seat::{Empty, Floor, Full};
+use crate::day11::Seat::{Empty, Floor, Occupied};
 use std::fmt::{Display, Formatter, Result};
 use std::fs::read_to_string;
 use std::iter::repeat;
@@ -11,7 +11,7 @@ pub(crate) fn main() {
             .chars()
             .map(|seat| match seat {
                 'L' => Empty,
-                '#' => Full,
+                '#' => Occupied,
                 '.' => Floor,
                 other => unimplemented!("Not a seat: {}", other),
             })
@@ -48,8 +48,8 @@ fn part_1(
             );
 
             if seat == Empty && count.occupied == 0 {
-                new_seats[row][col] = Full
-            } else if seat == Full && count.occupied >= 4 {
+                new_seats[row][col] = Occupied
+            } else if seat == Occupied && count.occupied >= 4 {
                 new_seats[row][col] = Empty
             } else {
                 new_seats[row][col] = seat
@@ -62,7 +62,7 @@ fn part_1(
             let mut count = 0;
             for row in 0..row_size {
                 for col in 0..col_size {
-                    if new_seats[row][col] == Full {
+                    if new_seats[row][col] == Occupied {
                         count += 1
                     };
                 }
@@ -142,7 +142,7 @@ fn visible_seat_count(
 #[cfg(test)]
 mod tests {
     use crate::day11::visible_seat_count;
-    use crate::day11::Seat::{Empty, Floor, Full};
+    use crate::day11::Seat::{Empty, Floor, Occupied};
 
     #[test]
     fn visible_count() {
@@ -165,9 +165,9 @@ mod tests {
         assert_eq!(
             visible_seat_count(
                 &vec![
-                    vec![Full, Floor, Full],
-                    vec![Full, Full, Full],
-                    vec![Full, Floor, Full]
+                    vec![Occupied, Floor, Occupied],
+                    vec![Occupied, Occupied, Occupied],
+                    vec![Occupied, Floor, Occupied]
                 ],
                 1,
                 3,
@@ -192,8 +192,8 @@ fn part_2(
         for col in 0..col_size {
             let count = visible_seat_count(&seats, row, row_size, col, col_size);
             match seats[row][col] {
-                Full if count.occupied >= 5 => new_seats[row][col] = Empty,
-                Empty if count.occupied == 0 => new_seats[row][col] = Full,
+                Occupied if count.occupied >= 5 => new_seats[row][col] = Empty,
+                Empty if count.occupied == 0 => new_seats[row][col] = Occupied,
                 other => new_seats[row][col] = other,
             };
         }
@@ -204,7 +204,7 @@ fn part_2(
             let mut count = 0;
             for row in 0..row_size {
                 for col in 0..col_size {
-                    if new_seats[row][col] == Full {
+                    if new_seats[row][col] == Occupied {
                         count += 1
                     };
                 }
@@ -239,7 +239,7 @@ impl Seats for Seat {
                 empty: 1,
                 occupied: 0,
             },
-            Full => SeatCount {
+            Occupied => SeatCount {
                 empty: 0,
                 occupied: 1,
             },
@@ -260,7 +260,7 @@ struct SeatCount {
 #[derive(Copy, Clone, PartialEq, Debug)]
 enum Seat {
     Empty,
-    Full,
+    Occupied,
     Floor,
 }
 
@@ -268,7 +268,7 @@ impl Display for Seat {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match self {
             Empty => write!(f, "L"),
-            Full => write!(f, "#"),
+            Occupied => write!(f, "#"),
             Floor => write!(f, "."),
         }
     }
