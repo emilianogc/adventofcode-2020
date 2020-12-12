@@ -1,5 +1,6 @@
 #![feature(str_split_once)]
 #![feature(iterator_fold_self)]
+#![feature(destructuring_assignment)]
 
 mod day1;
 mod day10;
@@ -12,6 +13,7 @@ mod day6;
 mod day7;
 mod day8;
 mod day9;
+mod day12;
 
 use colored::*;
 use std::io::Write;
@@ -53,6 +55,7 @@ fn main() {
         9 => day9::main(),
         10 => day10::main(),
         11 => day11::main(),
+        12 => day12::main(),
         _ => eprintln!("Not a valid option"),
     }
 }
