@@ -1,8 +1,7 @@
+use crate::day12::Step::{East, Forward, Left, North, Right, South, West};
 use std::fs::read_to_string;
-use crate::day12::Step::{North, South, East, West, Left, Right, Forward};
 
 pub(crate) fn main() -> () {
-
     let file = read_to_string("resources/day12.input").unwrap();
     let mut steps = Vec::new();
     for line in file.lines() {
@@ -77,7 +76,7 @@ fn part_2(steps: &Vec<Step>) -> i32 {
     let mut ship_y: i32 = 0;
 
     let mut way_x: i32 = 10;
-    let mut way_y: i32= 1;
+    let mut way_y: i32 = 1;
 
     for step in steps.iter() {
         match step {
@@ -86,17 +85,15 @@ fn part_2(steps: &Vec<Step>) -> i32 {
             North(v) => way_y += *v,
             South(v) => way_y -= *v,
 
-            Left(v) =>
-                (way_x, way_y) = rotate(*v, way_x, way_y),
-            Right(v) =>
-                (way_x, way_y) = rotate(360 - *v, way_x, way_y),
+            Left(v) => (way_x, way_y) = rotate(*v, way_x, way_y),
+            Right(v) => (way_x, way_y) = rotate(360 - *v, way_x, way_y),
 
             Forward(v) => {
                 ship_x += way_x * *v;
                 ship_y += way_y * *v;
             }
         }
-    };
+    }
 
     ship_x.abs() + ship_y.abs()
 }
@@ -107,6 +104,6 @@ fn rotate(angle: i32, x: i32, y: i32) -> (i32, i32) {
         180 => (-x, -y),
         270 => (y, -x),
         360 => (x, y),
-        other => unimplemented!("Invalid angle: {}", other)
+        other => unimplemented!("Invalid angle: {}", other),
     }
 }
