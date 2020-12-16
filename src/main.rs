@@ -17,6 +17,7 @@ mod day6;
 mod day7;
 mod day8;
 mod day9;
+mod day16;
 
 use colored::*;
 use std::io::Write;
@@ -62,6 +63,7 @@ fn main() {
         13 => day13::main(),
         14 => day14::main(),
         15 => day15::main(),
+        16 => day16::main(),
         _ => eprintln!("Not a valid option"),
     }
 }
