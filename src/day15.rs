@@ -1,7 +1,5 @@
 use crate::day15::Num::{First, Twice};
-use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::collections::HashMap;
-use std::fmt::Display;
 use std::fs::read_to_string;
 
 pub(crate) fn main() -> () {
@@ -12,15 +10,12 @@ pub(crate) fn main() -> () {
     let mut last = 0;
     for n in file.split(",") {
         let number = n.parse::<u32>().expect("input is a number");
-        match numbers_to_turn.get(&number) {
-            None => numbers_to_turn.insert(number, First(turn)),
-            Some(First(previous_turn)) => {
-                numbers_to_turn.insert(number, Twice(*previous_turn, turn))
-            }
-            Some(Twice(_, previous_turn)) => {
-                numbers_to_turn.insert(number, Twice(*previous_turn, turn))
-            }
+        let entry = match numbers_to_turn.get(&number) {
+            None => First(turn),
+            Some(First(previous_turn)) => Twice(*previous_turn, turn),
+            Some(Twice(_, previous_turn)) => Twice(*previous_turn, turn),
         };
+        numbers_to_turn.insert(number, entry);
         last = number;
         turn += 1;
     }
