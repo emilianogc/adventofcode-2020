@@ -26,7 +26,8 @@ pub(crate) fn main() -> () {
 
     println!("Part 1 result: {}", (min_departure - departure) * bus);
 
-    let result_2 = lines[1].split(',')
+    let result_2 = lines[1]
+        .split(',')
         .enumerate()
         .filter_map(|(i, s)| s.parse().ok().map(|x: usize| (x - (i + x - 1) % x - 1, x)))
         .fold((0, 1), |(r1, q1), (r2, q2)| crt(r1, q1, r2, q2))
@@ -41,7 +42,7 @@ fn crt(r1: usize, q1: usize, r2: usize, q2: usize) -> (usize, usize) {
     let q = q1 * q2 / gcd(q1, q2);
     loop {
         match a.cmp(&b) {
-            Ordering::Less => a += ((b -   a + q1 - 1) / q1) * q1,
+            Ordering::Less => a += ((b - a + q1 - 1) / q1) * q1,
             Ordering::Equal => return (a, q),
             Ordering::Greater => b += ((a - b + q2 - 1) / q2) * q2,
         }
