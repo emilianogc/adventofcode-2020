@@ -41,7 +41,7 @@ pub(crate) fn main() -> () {
 fn part_1(instructions: &Vec<Instr>) -> Vec<u64> {
     let mut mask_0 = 0;
     let mut mask_1 = 0;
-    let mut memory = Vec::new();
+    let mut memory = HashMap::new();
 
     for instr in instructions {
         match *instr {
@@ -59,16 +59,11 @@ fn part_1(instructions: &Vec<Instr>) -> Vec<u64> {
                 }
             }
             Mem(a, v) => {
-                if a >= memory.len() {
-                    for i in memory.len()..a + 1 {
-                        memory.push(0);
-                    }
-                }
-                memory[a] = (v & !mask_0) | mask_1;
+                memory.insert(a, (v & !mask_0) | mask_1);
             }
         }
     }
-    memory
+    memory.values().copied().collect_vec()
 }
 
 fn part_2(instructions: &Vec<Instr>) -> Vec<u64> {
@@ -124,7 +119,7 @@ fn part_2(instructions: &Vec<Instr>) -> Vec<u64> {
             }
         }
     }
-    memory.values().map(|x| *x).collect_vec()
+    memory.values().copied().collect_vec()
 }
 
 enum Instr<'a> {
