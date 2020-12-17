@@ -1,8 +1,8 @@
-use crate::day15::Num::{First, Twice};
+use crate::Num::{First, Twice};
 use std::collections::HashMap;
 use std::fs::read_to_string;
 
-pub(crate) fn main() -> () {
+fn main() -> () {
     let file = read_to_string("resources/day15.input").unwrap();
 
     let mut turn = 1;

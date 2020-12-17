@@ -1,10 +1,10 @@
-use crate::day11::Seat::{Empty, Floor, Occupied};
+use crate::Seat::{Empty, Floor, Occupied};
 use std::fmt::{Display, Formatter, Result};
 use std::fs::read_to_string;
 use std::iter::repeat;
 use std::ops::Add;
 
-pub(crate) fn main() {
+fn main() {
     let mut seats = Vec::new();
     for line in read_to_string("resources/day11.input").unwrap().lines() {
         let row: Vec<_> = line
@@ -143,6 +143,8 @@ fn visible_seat_count(
 mod tests {
     use crate::day11::visible_seat_count;
     use crate::day11::Seat::{Empty, Floor, Occupied};
+    use crate::visible_seat_count;
+    use crate::Seat::{Empty, Floor, Occupied};
 
     #[test]
     fn visible_count() {

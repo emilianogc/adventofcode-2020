@@ -1,4 +1,5 @@
-use crate::day12::Step::{East, Forward, Left, North, Right, South, West};
+#![feature(destructuring_assignment)]
+use crate::Step::{East, Forward, Left, North, Right, South, West};
 use std::fs::read_to_string;
 
 pub(crate) fn main() -> () {

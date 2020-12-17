@@ -1,23 +1,14 @@
-use std::io::stdin;
-
+use std::fs::read_to_string;
 use text_io::scan;
 
-pub(crate) fn main() {
-    println!("Enter lines (Ctrl+D to end): ");
+fn main() {
     let mut correct1 = 0;
     let mut correct2 = 0;
-    loop {
-        let mut buffer = String::new();
-        let bytes = stdin().read_line(&mut buffer);
 
-        match bytes {
-            Ok(0) => break,
-            Err(e) => eprintln!("Failed reading: {}", e),
-            _ => {}
-        }
-
+    let file = read_to_string("resources/day2.input").expect("input is provided");
+    for line in file.lines() {
         let (a, b, c, pass): (usize, usize, char, String);
-        scan!(buffer.bytes() => "{}-{} {}: {}", a, b, c, pass);
+        scan!(line.bytes() => "{}-{} {}: {}", a, b, c, pass);
 
         let count = pass.chars().filter(|cc| c == *cc).count();
         if (count >= a) & (count <= b) {

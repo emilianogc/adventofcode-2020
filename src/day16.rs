@@ -1,9 +1,8 @@
-use std::fs::read_to_string;
+use bit_set::BitSet;
 use itertools::Itertools;
 use regex::Regex;
-use bit_set::BitSet;
 use std::collections::{HashMap, HashSet};
-
+use std::fs::read_to_string;
 
 pub(crate) fn main() -> () {
     let field_regex = Regex::new("(.+?): (\\d+)-(\\d+) or (\\d+)-(\\d+)").expect("valid regex");
@@ -12,15 +11,24 @@ pub(crate) fn main() -> () {
 
     let mut fields = Vec::new();
     for field in split[0].lines() {
-        let capture = field_regex.captures(field).expect("input conforms to regex");
+        let capture = field_regex
+            .captures(field)
+            .expect("input conforms to regex");
         let mut values = BitSet::new();
         let limit_1 = &capture[2].parse::<usize>().expect("input conforms to spec");
         let limit_2 = &capture[3].parse::<usize>().expect("input conforms to spec");
-        for v in *limit_1 ..= *limit_2 { values.insert(v); }
+        for v in *limit_1..=*limit_2 {
+            values.insert(v);
+        }
         let limit_3 = &capture[4].parse::<usize>().expect("input conforms to spec");
         let limit_4 = &capture[5].parse::<usize>().expect("input conforms to spec");
-        for v in *limit_3 ..= *limit_4 { values.insert(v); }
-        fields.push(Field { name: capture[1].to_string(), values });
+        for v in *limit_3..=*limit_4 {
+            values.insert(v);
+        }
+        fields.push(Field {
+            name: capture[1].to_string(),
+            values,
+        });
     }
 
     let mut my_ticket = Vec::new();
@@ -35,14 +43,16 @@ pub(crate) fn main() -> () {
             ticket.push(num.parse::<usize>().expect("input conforms to spec"));
         }
         nearby_tickets.push(ticket);
-    };
-
+    }
 
     let mut sum: u64 = 0;
     nearby_tickets.retain(|ticket| {
         let mut invalid = false;
         for ticket_field in ticket.iter() {
-            if !fields.iter().any(|desc_field| desc_field.values.contains(*ticket_field)) {
+            if !fields
+                .iter()
+                .any(|desc_field| desc_field.values.contains(*ticket_field))
+            {
                 invalid = true;
                 sum += *ticket_field as u64;
             }
@@ -52,24 +62,28 @@ pub(crate) fn main() -> () {
     println!("Part 1 result: {}", sum);
 
     let transposed = transpose(nearby_tickets);
-    let mut matching_fields : HashMap<usize, HashSet<String>> = HashMap::new();
+    let mut matching_fields: HashMap<usize, HashSet<String>> = HashMap::new();
     for (index, indexed_fields) in transposed.iter().enumerate() {
         for field in &fields {
             if indexed_fields.iter().all(|v| field.values.contains(*v)) {
-                matching_fields.entry(index).or_default().insert(field.name.clone());
+                matching_fields
+                    .entry(index)
+                    .or_default()
+                    .insert(field.name.clone());
             }
         }
     }
 
     let mut field_mapping = HashMap::new();
     while !matching_fields.is_empty() {
-        let (field_index, located_field) = matching_fields.iter().find(|(_, v)| v.len() == 1).unwrap();
+        let (field_index, located_field) =
+            matching_fields.iter().find(|(_, v)| v.len() == 1).unwrap();
 
         let field_name = located_field.iter().exactly_one().unwrap().clone();
         field_mapping.insert(field_name.clone(), *field_index);
         for (_, v) in matching_fields.iter_mut() {
             v.remove(&field_name);
-        };
+        }
         matching_fields.retain(|_, v| !v.is_empty());
     }
 
@@ -87,9 +101,7 @@ where
     T: Clone,
 {
     (0..v[0].len())
-        .map(|i| v.iter()
-            .map(|inner| inner[i].clone())
-            .collect::<Vec<T>>())
+        .map(|i| v.iter().map(|inner| inner[i].clone()).collect::<Vec<T>>())
         .collect()
 }
 

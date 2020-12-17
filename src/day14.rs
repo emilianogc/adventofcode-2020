@@ -1,4 +1,4 @@
-use crate::day14::Instr::{Mask, Mem};
+use crate::Instr::{Mask, Mem};
 use itertools::Itertools;
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -6,7 +6,7 @@ use std::collections::HashMap;
 use std::fs::read_to_string;
 use std::iter;
 
-pub(crate) fn main() -> () {
+fn main() -> () {
     lazy_static! {
         static ref MASK_RE: Regex = Regex::new("mask = ([01X]+)").unwrap();
         static ref INSTRUCTION_RE: Regex = Regex::new("mem\\[([0-9]+)\\] = ([0-9]+)").unwrap();

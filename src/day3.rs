@@ -1,4 +1,4 @@
-use std::io::stdin;
+use std::fs::read_to_string;
 
 #[derive(Debug)]
 struct Slope {
@@ -19,22 +19,13 @@ pub(crate) fn main() {
         make_slope(1, 7),
         make_slope(2, 1),
     ];
-    let mut xi = 0;
 
-    println!("Enter lines (Ctrl+D to end): ");
-    loop {
-        let mut buffer = String::new();
-        match stdin().read_line(&mut buffer) {
-            Ok(0) => break,
-            Err(e) => eprintln!("Failed reading: {}", e),
-            _ => {}
-        }
-        let line: &str = buffer.as_str();
+    let file = read_to_string("resources/day3.input").expect("input is defined");
+    for (xi, line) in file.lines().enumerate() {
         let size = line.len();
-
         for slope in &mut slopes {
             if xi == slope.next_x {
-                let char = line.chars().nth(slope.next_y % (size - 1));
+                let char = line.chars().nth(slope.next_y % (size));
 
                 match char {
                     Some('.') => {}
@@ -46,8 +37,6 @@ pub(crate) fn main() {
                 slope.next_y += slope.dy;
             }
         }
-
-        xi += 1;
     }
 
     for slope in &slopes {

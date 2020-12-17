@@ -1,7 +1,8 @@
+#![feature(iterator_fold_self)]
 use bit_set::BitSet;
 use std::fs::read_to_string;
 
-pub(crate) fn main() {
+fn main() {
     let file = read_to_string("resources/day6.input").unwrap();
     let mut unions = 0;
     let mut intersections = 0;

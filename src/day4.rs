@@ -1,7 +1,8 @@
+#![feature(str_split_once)]
 use lazy_static::lazy_static;
 use regex::Regex;
 
-pub(crate) fn main() {
+fn main() {
     let mut ok = 0;
     let file = std::fs::read_to_string("resources/day4.input").unwrap();
     let lines: Vec<&str> = file.split("\n\n").collect();

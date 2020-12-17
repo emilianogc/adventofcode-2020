@@ -1,4 +1,4 @@
-use crate::day8::InstructionKind::{Accumulate, Jump, Noop};
+use crate::InstructionKind::{Accumulate, Jump, Noop};
 use bit_set::BitSet;
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -17,7 +17,7 @@ struct Instruction {
     value: i32,
 }
 
-pub(crate) fn main() {
+fn main() {
     let file = read_to_string("resources/day8.input").unwrap();
     let mut instructions: Vec<Instruction> = Vec::new();
     for line in file.lines() {
